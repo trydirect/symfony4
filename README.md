@@ -1,13 +1,9 @@
 # symfony 4
 > Symfony4 template with docker-compose and XDebug enabled.
 
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
-
 This repo help Symfony developers to start their new projects quickly using docker-compose.
 Docker image includes Xdebug.
 
-![](header.png)
 
 ## Installation
 
