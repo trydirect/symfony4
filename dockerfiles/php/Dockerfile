@@ -49,7 +49,7 @@ RUN cd xdebug-2.6.1 \
     && echo 'zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so' >> /etc/php7/php.ini \
     && echo 'xdebug.remote_enable=true' >> /etc/php7/php.ini \
     && echo 'xdebug.remote_host=127.0.0.1' >> /etc/php7/php.ini \
-    && echo 'xdebug.remote_port=9000' >> /etc/php7/php.ini \
+    && echo 'xdebug.remote_port=9001' >> /etc/php7/php.ini \
     && echo 'xdebug.remote_handler=dbgp' >> /etc/php7/php.ini \
     && echo 'xdebug.max_nesting_level=512' >> /etc/php7/php.ini \
 RUN cd /usr/src && curl -OL https://github.com/symfony/symfony/archive/v4.2.3.tar.gz
