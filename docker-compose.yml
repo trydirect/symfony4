@@ -1,0 +1,61 @@
+version: "2"
+
+volumes:
+    db:
+      driver: local
+
+services:
+
+  php:
+    image: symfony
+      #dockerfile: Dockerfile
+    restart: always
+    container_name: php
+    env_file:
+         - symfony/.env
+    user: 1001:1001
+    links:
+      - db
+    working_dir: /var/www/html
+    environment:
+      MYSQL_ROOT_PASSWORD: mautic
+      MYSQL_DATABASE: mautic
+      MYSQL_USER: mautic
+      MYSQL_PASSWORD: mautic
+    volumes:
+      - ./symfony:/var/www/html
+      - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
+
+
+  db:
+    image: mysql:5.6
+    restart: always
+    environment:
+         MYSQL_ROOT_PASSWORD: mautic
+         MYSQL_DATABASE: mautic
+         MYSQL_USER: mautic
+         MYSQL_PASSWORD: mautic
+    volumes:
+         - db:/var/lib/mysql
+
+# entry point
+  nginx:
+    image: ${REGISTRY}trydirect/nginx:latest
+    container_name: nginx
+    restart: always
+    depends_on:
+      - php
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - php
+    volumes:
+      - ./certs/ssl:/etc/nginx/ssl
+      - ./certs/letsencrypt:/etc/letsencrypt
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./supervisord:/etc/supervisor/conf.d/
+      - ./cron/nginx:/var/spool/cron/crontabs
+      - ./symfony:/var/www/html
+    entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n
