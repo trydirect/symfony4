@@ -25,6 +25,7 @@ services:
     volumes:
       - ./symfony:/var/www/html
       - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./xdebug.ini:/usr/local/lib/php/doc/xdebug/xdebug.ini
 
 
   db:
