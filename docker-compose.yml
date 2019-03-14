@@ -8,6 +8,7 @@ services:
 
   php:
     image: trydirect/symfony:latest
+#    build: ./dockerfiles/php
      #dockerfile: Dockerfile
     restart: always
     container_name: php
@@ -22,6 +23,7 @@ services:
       MYSQL_DATABASE: mautic
       MYSQL_USER: mautic
       MYSQL_PASSWORD: mautic
+      XDEBUG_CONFIG: remote_host=0.0.0.0
     volumes:
       - ./symfony:/var/www/html
       - ./www.conf:/usr/local/etc/php-fpm.d/www.conf

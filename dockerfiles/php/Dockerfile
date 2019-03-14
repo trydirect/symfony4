@@ -34,6 +34,7 @@ RUN apk update && apk upgrade\
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN docker-php-ext-install gd bcmath zip bz2 pdo pdo_pgsql simplexml opcache sockets mbstring pcntl xsl pspell
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install pdo_mysql
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 RUN pecl install xdebug
@@ -45,12 +46,13 @@ RUN cd xdebug-2.6.1 \
     && make \
     && make install \
     && cp modules/xdebug.so /usr/local/lib/php/extensions/no-debug-non-zts-20170718 \
-    && echo 'zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so' >> /usr/local/etc/php/php.ini \
-    && echo 'zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so' >> /etc/php7/php.ini \
-    && echo 'xdebug.remote_enable=true' >> /etc/php7/php.ini \
-    && echo 'xdebug.remote_host=127.0.0.1' >> /etc/php7/php.ini \
-    && echo 'xdebug.remote_port=9001' >> /etc/php7/php.ini \
-    && echo 'xdebug.remote_handler=dbgp' >> /etc/php7/php.ini \
-    && echo 'xdebug.max_nesting_level=512' >> /etc/php7/php.ini \
+    && echo 'zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so' >> /usr/local/etc/php.ini \
+    && echo 'xdebug.remote_enable=on' >> /usr/local/etc/php.ini \
+    && echo 'xdebug.remote_connect_back=1' >> /usr/local/etc/php.ini \
+    && echo 'xdebug.remote_host=127.0.0.1' >> /usr/local/etc/php.ini \
+    && echo 'xdebug.remote_port=9000' >> /usr/local/etc/php.ini \
+    && echo 'xdebug.remote_handler=dbgp' >> /usr/local/etc/php.ini \
+    && echo 'xdebug.max_nesting_level=512' >> /usr/local/etc/php.ini \
+    && echo 'extension=xdebug.so' >> /usr/local/etc/php.ini
 RUN cd /usr/src && curl -OL https://github.com/symfony/symfony/archive/v4.2.3.tar.gz
 WORKDIR '/var/www/html'
