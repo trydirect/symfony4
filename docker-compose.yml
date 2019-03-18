@@ -30,6 +30,56 @@ services:
       - ./xdebug.ini:/usr/local/lib/php/doc/xdebug/xdebug.ini
 
 
+  elasticsearch:
+    image: elasticsearch:5.4
+    restart: always
+    container_name: elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      discovery.type: "single-node"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    links:
+      - php
+    depends_on:
+      - php
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+
+  kibana:
+      image: kibana:5.4
+      restart: always
+      container_name: kibana
+      depends_on:
+        - elasticsearch
+      ports:
+        - "5601:5601"
+      links:
+        - elasticsearch
+
+  logstash:
+          image: logstash:5.4
+          container_name: logstash
+          restart: always
+          ports:
+            - "5044"
+          links:
+            - elasticsearch
+          depends_on:
+            - elasticsearch
+
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    env_file:
+      - symfony/.env
+    volumes:
+      - ./redis-data:/data
+
   db:
     image: mysql:5.6
     restart: always

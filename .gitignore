@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+elasticsearch
 /.env.local
 /.env.local.php
 /.env.*.local
