@@ -1,9 +1,0 @@
-version: "2"
-
-services:
-
-  mautic:
-    image: symfony4
-    build: .
-    container_name: symfony4
-    restart: always

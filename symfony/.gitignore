@@ -1,4 +1,5 @@
 
 ###> symfony/web-server-bundle ###
 /.web-server-pid
+var
 ###< symfony/web-server-bundle ###
