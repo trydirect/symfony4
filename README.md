@@ -2,7 +2,7 @@
  Symfony4 template with:
  * docker-compose
  * php-fpm 7.2
- * Xdebug 1.6.1
+ * Xdebug 2.6.1
 
 This repo help Symfony developers to start their new projects quickly using docker-compose.
 Docker image includes Xdebug.
