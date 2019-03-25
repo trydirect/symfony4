@@ -1,37 +1,35 @@
 # symfony 4
-> Symfony4 template with docker-compose and XDebug enabled.
+ Symfony4 template with:
+ * docker-compose
+ * php-fpm 7.2
+ * Xdebug 1.6.1
 
 This repo help Symfony developers to start their new projects quickly using docker-compose.
 Docker image includes Xdebug.
 
+## Note
+Before installing this project, please, make sure you have installed docker and docker-compose
+
+To install docker execute: 
+```sh
+$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ sh get-docker.sh
+$ pip install docker-compose
+```
 
 ## Installation
-
-OS X & Linux:
-
+Clone this project into your work directory:
 ```sh
-docker-compose up -d
+$ git clone "https://github.com/trydirect/symfony4.git"
+```
+Then build it via docker-compose:
+```sh
+$ cd symfony4
+$ docker-compose up -d
 ```
 
 
-## Usage example
 
-
-_For more examples and usage, please refer to the [Wiki][wiki]._
-
-## Development setup
-
-
-```sh
-docker-compose up -d
-```
-
-## Release History
-
-* 0.0.1
-    * Initial commit
-
-## Meta
 
 
 ## Contributing
