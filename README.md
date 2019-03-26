@@ -3,6 +3,10 @@
  * docker-compose
  * php-fpm 7.2
  * Xdebug 2.6.1
+ * Nginx
+ * Supervisord
+ * mysql 5.7
+ * Ubuntu 18.04
 
 This repo help Symfony developers to start their new projects quickly using docker-compose.
 Docker image includes Xdebug.
