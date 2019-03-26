@@ -1,12 +1,12 @@
-# symfony 4
+# Symfony 4
  Symfony 4 template includes:
  * PHP-fpm 7.2
  * MySQL 5.7
  * Xdebug 2.6.1
- * Ubuntu 18.04
  * Nginx
  * Supervisord
  * docker-compose
+ * Ubuntu 18.04
  
 This repo help Symfony developers to start their new projects quickly using docker-compose.
 Docker image includes Xdebug.
