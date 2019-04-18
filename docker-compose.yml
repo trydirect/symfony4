@@ -55,7 +55,8 @@ services:
       - ./elasticsearch-data/data:/usr/share/elasticsearch/data
       - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
-      - "9200:9300"
+      - "127.0.0.1:9200:9200"
+      - "127.0.0.1:9300:9300"
 
   kibana:
       image: kibana:5.4.3
@@ -132,6 +133,7 @@ services:
       - "443:443"
     links:
       - php
+      - kibana
     volumes:
       - ./certs/ssl:/etc/nginx/ssl
       - ./certs/letsencrypt:/etc/letsencrypt
