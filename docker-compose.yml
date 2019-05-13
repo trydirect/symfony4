@@ -13,16 +13,12 @@ services:
     restart: always
     container_name: php
     env_file:
-         - symfony/.env
+         - .env
     user: 1001:1001
     links:
       - db
     working_dir: /var/www/html
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: rest_api
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
       XDEBUG_CONFIG: remote_host=0.0.0.0
     volumes:
       - ./symfony:/var/www/html
@@ -75,7 +71,6 @@ services:
       build: config/logstash/
       environment:
         LS_JAVA_OPTS: "-Xms1g -Xmx4g"
-      # image: logstash:5.6
       container_name: logstash
       restart: always
       ports:
@@ -90,7 +85,7 @@ services:
       restart: always
       container_name: redis
       env_file:
-        - symfony/.env
+        - .env
       volumes:
         - ./redis-data:/data
       logging:
@@ -106,11 +101,8 @@ services:
     container_name: mysql57-container
     ports:
       - "127.0.0.1:3357:3306"
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: rest_api
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
       DB_CONNECTION: mysql
     volumes:
       - db:/var/lib/mysql

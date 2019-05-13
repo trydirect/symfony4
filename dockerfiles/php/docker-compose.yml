@@ -1,0 +1,39 @@
+version: "2"
+
+volumes:
+    db:
+      driver: local
+
+services:
+
+  php:
+    image: trydirect/symfony:latest
+    build: .
+    restart: always
+    container_name: php
+    env_file:
+         - symfony/.env
+    user: 1001:1001
+    links:
+      - db
+    working_dir: /var/www/html
+    environment:
+      MYSQL_ROOT_PASSWORD: development
+      MYSQL_DATABASE: development
+      MYSQL_USER: development
+      MYSQL_PASSWORD: development
+    volumes:
+      - ./symfony:/var/www/html
+      - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./xdebug.ini:/usr/local/lib/php/doc/xdebug/xdebug.ini
+
+  db:
+    image: mysql:5.6
+    restart: always
+    environment:
+         MYSQL_ROOT_PASSWORD: development
+         MYSQL_DATABASE: development
+         MYSQL_USER: development
+         MYSQL_PASSWORD: development
+    volumes:
+         - db:/var/lib/mysql
