@@ -13,6 +13,8 @@ for c in client.containers.list():
 
 # Testing Symfony build
 
+print(os.environ)
+
 # Symfony PHP
 php = client.containers.get('php')
 assert php.status == 'running'
@@ -30,4 +32,5 @@ mycnf = mysql.exec_run("/usr/sbin/mysqld —verbose —help")
 assert '' in mysql.output.decode()
 mysql_log = mysql.logs()
 assert "Ready to accept connections" in mysql_log.decode()
+
 

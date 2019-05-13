@@ -7,9 +7,7 @@ volumes:
 services:
 
   php:
-    image: trydirect/symfony:latest
-#    build: ./dockerfiles/php
-     #dockerfile: Dockerfile
+    build: ./dockerfiles/php
     restart: always
     container_name: php
     env_file:
