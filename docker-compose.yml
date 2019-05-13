@@ -26,7 +26,7 @@ services:
          driver: "json-file"
          options:
            max-size: "10m"
-           tag: "container_{{.Name}}"
+           gelf-tag: "container_{{.Name}}"
 
 
   elasticsearch:
@@ -90,7 +90,7 @@ services:
         driver: "json-file"
         options:
           max-size: "10m"
-          tag: "container_{{.Name}}"
+          gelf-tag: "container_{{.Name}}"
 
 
   db:
@@ -108,7 +108,7 @@ services:
       driver: "json-file"
       options:
         max-size: "10m"
-        tag: "container_{{.Name}}"
+        gelf-tag: "container_{{.Name}}"
 
 
 # entry point
@@ -137,4 +137,20 @@ services:
       driver: "json-file"
       options:
         max-size: "10m"
-        tag: "container_{{.Name}}"
+        gelf-tag: "container_{{.Name}}"
+
+  security:
+    # use image if you have a dedicated build step:
+    image: docker/docker-bench-security
+    cap_add:
+      - audit_control
+    labels:
+      - docker_bench_security
+    pid: host
+    stdin_open: true
+    tty: true
+    volumes:
+      #            - /var/lib:/var/lib
+      - /var/run/docker.sock:/var/run/docker.sock
+#            - /usr/lib/systemd:/usr/lib/systemd
+#            - /etc:/etc
