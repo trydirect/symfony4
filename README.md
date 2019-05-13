@@ -1,3 +1,8 @@
+![Docker Stars](https://img.shields.io/docker/stars/trydirect/symfony.svg)
+![Docker Pulls](https://img.shields.io/docker/pulls/trydirect/symfony.svg)
+![Docker Automated](https://img.shields.io/docker/cloud/automated/trydirect/symfony.svg)
+![Docker Build](https://img.shields.io/docker/cloud/build/trydirect/symfony.svg)
+
 # Symfony 4
  Symfony 4 template includes:
  * PHP-fpm 7.2
