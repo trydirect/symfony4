@@ -22,11 +22,11 @@ services:
       - ./symfony:/var/www/html
       - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./xdebug.ini:/usr/local/lib/php/doc/xdebug/xdebug.ini
-    logging:
-         driver: "json-file"
-         options:
-           max-size: "10m"
-           gelf-tag: "container_{{.Name}}"
+#    logging:
+#         driver: "json-file"
+#         options:
+#           max-size: "10m"
+#           gelf-tag: "container_{{.Name}}"
 
 
   elasticsearch:
@@ -86,11 +86,11 @@ services:
         - .env
       volumes:
         - ./redis-data:/data
-      logging:
-        driver: "json-file"
-        options:
-          max-size: "10m"
-          gelf-tag: "container_{{.Name}}"
+#      logging:
+#        driver: "json-file"
+#        options:
+#          max-size: "10m"
+#          gelf-tag: "container_{{.Name}}"
 
 
   db:
@@ -104,11 +104,11 @@ services:
       DB_CONNECTION: mysql
     volumes:
       - db:/var/lib/mysql
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        gelf-tag: "container_{{.Name}}"
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        gelf-tag: "container_{{.Name}}"
 
 
 # entry point
@@ -133,11 +133,11 @@ services:
       - ./cron/nginx:/var/spool/cron/crontabs
       - ./symfony:/var/www/html
     entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        gelf-tag: "container_{{.Name}}"
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        gelf-tag: "container_{{.Name}}"
 
   security:
     # use image if you have a dedicated build step:
