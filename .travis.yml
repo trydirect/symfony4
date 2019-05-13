@@ -1,0 +1,39 @@
+language: python
+python:
+  - 2.7
+
+services:
+  - docker
+
+before_install:
+  # update is required to update the repositories to see the new packages for
+  # Docker.
+  - sudo apt-get update
+  - docker-compose --version
+  - pip install docker-compose
+  - docker-compose --version
+
+install:
+  - cd dockerfiles/php
+  - docker-compose build
+  - docker-compose up -d
+  - docker-compose ps
+
+before_script:
+  - pip install requests
+  - pip install docker
+  - cd $TRAVIS_BUILD_DIR
+
+script:
+  - python tests.py
+
+notifications:
+  slack:
+    rooms:
+    - optimum-team:GycletOWK4Kt95GktwYwfUMp#build
+
+# safelist
+#branches:
+#  only:
+#    - master
+#    - autotests-travis

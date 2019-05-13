@@ -8,7 +8,7 @@ services:
 
   php:
     image: trydirect/symfony:latest
-     #dockerfile: Dockerfile
+    build: .
     restart: always
     container_name: php
     env_file:
@@ -27,7 +27,6 @@ services:
       - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./xdebug.ini:/usr/local/lib/php/doc/xdebug/xdebug.ini
 
-
   db:
     image: mysql:5.6
     restart: always
@@ -38,25 +37,3 @@ services:
          MYSQL_PASSWORD: development
     volumes:
          - db:/var/lib/mysql
-
-# entry point
-  nginx:
-    image: ${REGISTRY}trydirect/nginx:latest
-    container_name: nginx
-    restart: always
-    depends_on:
-      - php
-    ports:
-      - "80:80"
-      - "443:443"
-    links:
-      - php
-    volumes:
-      - ./certs/ssl:/etc/nginx/ssl
-      - ./certs/letsencrypt:/etc/letsencrypt
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./supervisord:/etc/supervisor/conf.d/
-      - ./cron/nginx:/var/spool/cron/crontabs
-      - ./symfony:/var/www/html
-    entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n
