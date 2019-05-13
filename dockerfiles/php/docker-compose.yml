@@ -11,17 +11,17 @@ services:
     build: .
     restart: always
     container_name: php
-    env_file:
-         - symfony/.env
-    user: 1001:1001
-    links:
-      - db
-    working_dir: /var/www/html
     environment:
+      APP_ENV: dev
+      APP_SECRET: a3415991418b94a4214925af3d84d25d
       MYSQL_ROOT_PASSWORD: development
       MYSQL_DATABASE: development
       MYSQL_USER: development
       MYSQL_PASSWORD: development
+    user: 1001:1001
+    links:
+      - db
+    working_dir: /var/www/html
     volumes:
       - ./symfony:/var/www/html
       - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
