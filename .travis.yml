@@ -10,7 +10,7 @@ before_install:
   # Docker.
   - sudo apt-get update
   - docker-compose --version
-  - pip install docker-compose
+  - pip install docker-compose --upgrade
   - docker-compose --version
 
 install:

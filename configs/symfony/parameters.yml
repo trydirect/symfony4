@@ -1,0 +1,7 @@
+parameters:
+    psql_database_driver: pdo_pgsql
+    psql_database_host: {{POSTGRES_HOST}}
+    psql_database_port: {{POSTGRES_PORT}}
+    psql_database_name: {{POSTGRES_DB}}
+    psql_database_user: {{POSTGRES_USER}}
+    psql_database_password: {{POSTGRES_PASSWORD}}
