@@ -77,16 +77,11 @@ assert "Ready to accept connections" in redis_log.decode()
 
 db = client.containers.get('db')
 assert db.status == 'running'
-cnf = db.exec_run('psql -h 127.0.0.1 -p 5432 -c "select 1"')
+cnf = db.exec_run('psql -U postgres -h 127.0.0.1 -p 5432 -c "select 1"')
 print(cnf.output.decode())
 # assert '' in cnf.output.decode()
 log = db.logs()
 # assert "Ready to accept connections" in log.decode()
-
-smtp = client.containers.get('symfony_smtp_1')
-assert smtp.status == 'running'
-smtp_log = smtp.logs()
-assert '' in smtp_log.decode()
 
 mq = client.containers.get('mq')
 assert mq.status == 'running'
