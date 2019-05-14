@@ -69,7 +69,8 @@ services:
         - ./configs/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
 
   logstash:
-      build: configs/logstash/
+      image: optimum/logstash-symfony-5.4.0
+      #build: configs/logstash/
       environment:
         LS_JAVA_OPTS: "-Xms1g -Xmx4g"
       container_name: logstash
