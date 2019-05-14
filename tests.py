@@ -12,8 +12,6 @@ client = docker.from_env()
 # Testing Symfony build
 
 time.sleep(20)  # we expect all containers are up and running in 20 secs
-for c in client.containers.list():
-    assert c.status == 'running'
 
 # NGINX
 nginx = client.containers.get('nginx')
@@ -101,3 +99,7 @@ mq = client.containers.get('mq')
 assert mq.status == 'running'
 logs = mq.logs()
 assert 'Server startup complete; 3 plugins started' in logs.decode()
+
+# for c in client.containers.list():
+#     assert c.status == 'running'
+
