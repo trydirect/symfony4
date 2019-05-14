@@ -27,7 +27,7 @@ php_proc = php.exec_run("ps aux |grep php-fpm")
 assert 'php-fpm: master process (/usr/local/etc/php-fpm.conf)' in php_proc.output.decode()
 assert 'fpm is running, pid' in php.logs()
 
-mysql = client.containers.get('mysql57')
+mysql = client.containers.get('db')
 
 assert mysql.status == 'running'
 mycnf = mysql.exec_run("/usr/sbin/mysqld —verbose —help")

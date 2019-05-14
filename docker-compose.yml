@@ -96,7 +96,7 @@ services:
   db:
     image: mysql:5.7
     restart: always
-    container_name: mysql57-container
+    container_name: db
     ports:
       - "127.0.0.1:3357:3306"
     env_file: .env
