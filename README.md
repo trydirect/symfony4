@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/trydirect/symfony.svg?branch=master)](https://travis-ci.com/trydirect/symfony)
 ![Docker Stars](https://img.shields.io/docker/stars/trydirect/symfony.svg)
 ![Docker Pulls](https://img.shields.io/docker/pulls/trydirect/symfony.svg)
 ![Docker Automated](https://img.shields.io/docker/cloud/automated/trydirect/symfony.svg)
