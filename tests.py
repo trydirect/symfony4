@@ -38,9 +38,6 @@ assert '"statusCode":404,"req":{"url":"/elasticsearch/logstash-' not in kibana.l
 # Logstash
 logstash = client.containers.get('logstash')
 assert logstash.status == 'running'
-response = requests.get("http://127.0.0.1:5044")
-assert response.status_code == 200
-assert "" in response.text
 assert 'Successfully started Logstash API endpoint {:port=>9600}' in logstash.logs()
 assert 'Pipeline main started' in logstash.logs()
 
