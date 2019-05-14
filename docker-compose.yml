@@ -2,7 +2,8 @@ version: "2"
 
 volumes:
     db:
-      driver: local
+    elasticdata:
+    redis-data:
 
 services:
 
@@ -20,13 +21,13 @@ services:
       XDEBUG_CONFIG: remote_host=0.0.0.0
     volumes:
       - ./symfony:/var/www/html
-      - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./xdebug.ini:/usr/local/lib/php/doc/xdebug/xdebug.ini
+      - ./configs/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./configs/php/xdebug.ini:/usr/local/lib/php/doc/xdebug/xdebug.ini
 #    logging:
 #         driver: "json-file"
 #         options:
 #           max-size: "10m"
-#           gelf-tag: "container_{{.Name}}"
+#           tag: "php"
 
 
   elasticsearch:
@@ -46,8 +47,8 @@ services:
     depends_on:
       - php
     volumes:
-      - ./elasticsearch-data/data:/usr/share/elasticsearch/data
-      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - elasticdata:/usr/share/elasticsearch/data
+      - ./configs/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - "127.0.0.1:9200:9200"
       - "127.0.0.1:9300:9300"
@@ -62,11 +63,13 @@ services:
         - "5601:5601"
       links:
         - elasticsearch
+      env_file:
+        - .env
       volumes:
-        - ./config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+        - ./configs/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
 
   logstash:
-      build: config/logstash/
+      build: configs/logstash/
       environment:
         LS_JAVA_OPTS: "-Xms1g -Xmx4g"
       container_name: logstash
@@ -78,6 +81,20 @@ services:
       depends_on:
         - elasticsearch
 
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:6.7.1
+    restart: always
+    container_name: filebeat
+    user: 0:0
+    env_file:
+      - .env
+    volumes:
+      - ./configs/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /var/run/docker.sock:/var/run/docker.sock
+    links:
+      - logstash
+
   redis:
       image: redis:latest
       restart: always
@@ -85,30 +102,30 @@ services:
       env_file:
         - .env
       volumes:
-        - ./redis-data:/data
-#      logging:
-#        driver: "json-file"
-#        options:
-#          max-size: "10m"
-#          gelf-tag: "container_{{.Name}}"
-
+        - redis-data:/data
+ #     logging:
+ #       driver: "json-file"
+ #       options:
+ #         max-size: "10m"
+ #         tag: "redis"
 
   db:
-    image: mysql:5.7
-    restart: always
+    image: postgres:9.4
     container_name: db
+    restart: always
     ports:
-      - "127.0.0.1:3357:3306"
-    env_file: .env
-    environment:
-      DB_CONNECTION: mysql
+      #- "5432:5432" - publish port to the world.
+      - "5432"
+    env_file:
+      - .env
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/postgresql/data/pgdata
+      - ./scripts/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
 #    logging:
 #      driver: "json-file"
 #      options:
 #        max-size: "10m"
-#        gelf-tag: "container_{{.Name}}"
+#        tag: "db"
 
 
 # entry point
@@ -125,12 +142,12 @@ services:
       - php
       - kibana
     volumes:
-      - ./certs/ssl:/etc/nginx/ssl
-      - ./certs/letsencrypt:/etc/letsencrypt
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./supervisord:/etc/supervisor/conf.d/
-      - ./cron/nginx:/var/spool/cron/crontabs
+      - ./configs/certs/ssl:/etc/nginx/ssl
+      - ./configs/certs/letsencrypt:/etc/letsencrypt
+      - ./configs/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./configs/nginx/conf.d:/etc/nginx/conf.d
+      - ./configs/supervisord:/etc/supervisor/conf.d/
+      - ./configs/cron/nginx:/var/spool/cron/crontabs
       - ./symfony:/var/www/html
     entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n
 #    logging:
@@ -139,18 +156,22 @@ services:
 #        max-size: "10m"
 #        gelf-tag: "container_{{.Name}}"
 
-  security:
-    # use image if you have a dedicated build step:
-    image: docker/docker-bench-security
-    cap_add:
-      - audit_control
-    labels:
-      - docker_bench_security
-    pid: host
-    stdin_open: true
-    tty: true
-    volumes:
-      #            - /var/lib:/var/lib
-      - /var/run/docker.sock:/var/run/docker.sock
-#            - /usr/lib/systemd:/usr/lib/systemd
-#            - /etc:/etc
+  # basic data bus for interaction between servers
+  mq:
+    container_name: mq
+    image: rabbitmq:3-management
+    restart: always
+    env_file:
+      - .env
+    ports:
+      # note! from others containers need connect to 5672 port, not 2172
+      # 2172 using for debug
+      - "2172:5672"
+      - "5672"
+      - "21072:15672"
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        tag: "rabbitm"
+
