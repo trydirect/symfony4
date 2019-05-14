@@ -17,9 +17,7 @@ time.sleep(20)  # we expect all containers are up and running in 20 secs
 nginx = client.containers.get('nginx')
 nginx_cfg = nginx.exec_run("/usr/sbin/nginx -T")
 assert nginx.status == 'running'
-assert 'server_name symf.com;' in nginx_cfg.output.decode()
-assert 'server_name kibana.symf.com;' in nginx_cfg.output.decode()
-assert "proxy_pass http://kibana:5601;" in nginx_cfg.output.decode()
+assert 'server_name _;' in nginx_cfg.output.decode()
 assert "error_log /proc/self/fd/2" in nginx_cfg.output.decode()
 assert "location = /.well-known/acme-challenge/" in nginx_cfg.output.decode()
 assert 'HTTP/1.1" 500' not in nginx.logs()
@@ -65,9 +63,6 @@ php_proc = php.exec_run("ps aux |grep php-fpm")
 assert 'php-fpm: master process (/usr/local/etc/php-fpm.conf)' in php_proc.output.decode()
 assert 'fpm is running, pid' in php.logs()
 
-#response = requests.get("http://127.0.0.1:9000")
-#assert response.status_code == 200
-
 redis = client.containers.get('redis')
 assert redis.status == 'running'
 redis_cli = redis.exec_run("redis-cli ping")
@@ -102,4 +97,7 @@ assert 'Server startup complete; 3 plugins started' in logs.decode()
 
 # for c in client.containers.list():
 #     assert c.status == 'running'
+
+#response = requests.get("http://127.0.0.1:9000")
+#assert response.status_code == 200
 
