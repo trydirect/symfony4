@@ -113,7 +113,7 @@ services:
 
 # entry point
   nginx:
-    image: ${REGISTRY}trydirect/nginx:latest
+    image: trydirect/nginx:latest
     container_name: nginx
     restart: always
     depends_on:
