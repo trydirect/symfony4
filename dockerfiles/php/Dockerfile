@@ -55,5 +55,5 @@ RUN cd xdebug-2.6.1 \
     && echo 'xdebug.max_nesting_level=512' >> /usr/local/etc/php.ini \
     && echo 'extension=xdebug.so' >> /usr/local/etc/php.ini
 RUN cd /usr/src && curl -OL https://github.com/symfony/symfony/archive/v4.2.3.tar.gz
-RUN groupadd -r -g 2000 trydirect; useradd -r -u 2000 -g 2000 -m -c "app account" -d /home/trydirect -s /bin/bash trydirect
+RUN adduser -u 2000 -g 2000 -h /home/trydirect -s /bin/bash -D trydirect
 WORKDIR '/var/www/html'
