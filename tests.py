@@ -11,6 +11,11 @@ client = docker.from_env()
 
 # Testing Symfony build
 
+for c in client.containers.list():
+    print("{}: {}".format(c.name, c.status))
+    if c.status != 'running':
+        print(c.logs())
+
 time.sleep(20)  # we expect all containers are up and running in 20 secs
 
 # NGINX
@@ -77,7 +82,7 @@ assert "Ready to accept connections" in redis_log.decode()
 
 db = client.containers.get('db')
 assert db.status == 'running'
-cnf = db.exec_run('psql -h 127.0.0.1 -p 5432 -c "select 1"')
+cnf = db.exec_run('psql -U symfony -h 127.0.0.1 -p 5432 -c "select 1"')
 print(cnf.output.decode())
 # assert '' in cnf.output.decode()
 log = db.logs()
@@ -93,8 +98,6 @@ assert mq.status == 'running'
 logs = mq.logs()
 assert 'Server startup complete; 3 plugins started' in logs.decode()
 
-for c in client.containers.list():
-    assert c.status == 'running'
 
 #response = requests.get("http://127.0.0.1:9000")
 #assert response.status_code == 200
