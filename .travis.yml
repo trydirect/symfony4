@@ -24,10 +24,16 @@ notifications:
   slack:
     rooms:
     - optimum-team:GycletOWK4Kt95GktwYwfUMp#build
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/0aa6221439383fa972ab
+    on_success: change
+    on_failure: always
+    on_start: never
 after_success:
 - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 - docker-compose -f docker-compose-build.yml images
-- docker push trydirect/symfony4-restful:app
+- docker push trydirect/symfony:4.2.3
 env:
   matrix:
   - DOCKER_CONTENT_TRUST=1
