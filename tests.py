@@ -11,6 +11,11 @@ client = docker.from_env()
 
 # Testing Symfony build
 
+for c in client.containers.list():
+    print("{}: {}".format(c.name, c.status))
+    if c.status != 'running':
+        print(c.logs())
+
 time.sleep(20)  # we expect all containers are up and running in 20 secs
 
 # NGINX
@@ -83,13 +88,15 @@ print(cnf.output.decode())
 log = db.logs()
 # assert "Ready to accept connections" in log.decode()
 
+#smtp = client.containers.get('symfony_smtp_1')
+#assert smtp.status == 'running'
+#smtp_log = smtp.logs()
+#assert '' in smtp_log.decode()
+
 mq = client.containers.get('mq')
 assert mq.status == 'running'
 logs = mq.logs()
 assert 'Server startup complete; 3 plugins started' in logs.decode()
-
-for c in client.containers.list():
-    assert c.status == 'running'
 
 #response = requests.get("http://127.0.0.1:9000")
 #assert response.status_code == 200
