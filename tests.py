@@ -77,7 +77,7 @@ assert "Ready to accept connections" in redis_log.decode()
 
 db = client.containers.get('db')
 assert db.status == 'running'
-cnf = db.exec_run('psql -U -h 127.0.0.1 -p 5432 -c "select 1"')
+cnf = db.exec_run('psql -h 127.0.0.1 -p 5432 -c "select 1"')
 print(cnf.output.decode())
 # assert '' in cnf.output.decode()
 log = db.logs()
