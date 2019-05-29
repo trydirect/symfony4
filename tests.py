@@ -57,7 +57,7 @@ print(php_log.decode())
 assert php.status == 'running'
 php_conf = php.exec_run("php-fpm -t")
 assert 'configuration file /usr/local/etc/php-fpm.conf test is successful' in php_conf.output.decode()
-php_proc = php.exec_run("ps aux |grep php-fpm")
+php_proc = php.exec_run("sh -c 'ps aux |grep php-fpm'")
 assert 'php-fpm: master process (/usr/local/etc/php-fpm.conf)' in php_proc.output.decode()
 assert 'fpm is running, pid' in php.logs()
 
@@ -83,18 +83,18 @@ print(cnf.output.decode())
 log = db.logs()
 # assert "Ready to accept connections" in log.decode()
 
-smtp = client.containers.get('symfony_smtp_1')
-assert smtp.status == 'running'
-smtp_log = smtp.logs()
-assert '' in smtp_log.decode()
+#smtp = client.containers.get('symfony_smtp_1')
+#assert smtp.status == 'running'
+#smtp_log = smtp.logs()
+#assert '' in smtp_log.decode()
 
 mq = client.containers.get('mq')
 assert mq.status == 'running'
 logs = mq.logs()
 assert 'Server startup complete; 3 plugins started' in logs.decode()
 
-# for c in client.containers.list():
-#     assert c.status == 'running'
+for c in client.containers.list():
+    assert c.status == 'running'
 
 #response = requests.get("http://127.0.0.1:9000")
 #assert response.status_code == 200
