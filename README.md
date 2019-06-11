@@ -39,10 +39,6 @@ $ cd symfony4
 $ docker-compose up -d
 ```
 
-
-
-
-
 ## Contributing
 
 1. Fork it (<https://github.com/trydirect/symfony4/fork>)
@@ -50,3 +46,7 @@ $ docker-compose up -d
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
+
+# Support Development
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2BH8ED2AUU2RL)
