@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/trydirect/symfony.svg?branch=master)](https://travis-ci.com/trydirect/symfony)
+[![Build Status](https://travis-ci.com/trydirect/symfony4.svg?branch=master)](https://travis-ci.com/trydirect/symfony4)
 ![Docker Stars](https://img.shields.io/docker/stars/trydirect/symfony.svg)
 ![Docker Pulls](https://img.shields.io/docker/pulls/trydirect/symfony.svg)
 ![Docker Automated](https://img.shields.io/docker/cloud/automated/trydirect/symfony.svg)
@@ -41,13 +41,13 @@ $ docker-compose up -d
 
 ## Let's check the deployment result in browser
  
-|--------------------------------------------------|
-|          Url           |          App            |
-|--------------------------------------------------|
+
+| **Url** | **App** |
+| --- | --- |
 | http://localhost       | Symfony home page       |
 | http://localhost:5601  | Kibana                  |
 | http://localhost:9200  | Elasticsearch           |
-----------------------------------------------------
+
 
 
 ## Run Tests
