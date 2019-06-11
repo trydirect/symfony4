@@ -8,7 +8,6 @@ import requests
 
 client = docker.from_env()
 
-
 # Testing Symfony build
 
 for c in client.containers.list():
@@ -38,14 +37,14 @@ assert kibana.status == 'running'
 response = requests.get("http://127.0.0.1:5601")
 assert response.status_code == 200
 assert "var hashRoute = '/app/kibana'" in response.text
-assert '"statusCode":404,"req":{"url":"/elasticsearch/logstash-' not in kibana.logs()
+assert 'Server running at http://0.0.0.0:5601' in kibana.logs()
 
 # Logstash
 logstash = client.containers.get('logstash')
 assert logstash.status == 'running'
-print(logstash.logs())
-# assert 'Successfully started Logstash API endpoint {:port=>9600}' in logstash.logs()
-# assert 'Pipeline main started' in logstash.logs()
+assert 'Successfully started Logstash API endpoint {:port=>9600}' in logstash.logs()
+assert 'Starting input listener {:address=>"0.0.0.0:5044"}' in logstash.logs()
+assert 'Pipeline main started' in logstash.logs()
 
 # Elasticsearch
 elastic = client.containers.get('elasticsearch')
@@ -58,7 +57,6 @@ assert ' bound_addresses {0.0.0.0:9200}' in elastic.logs()
 # Symfony PHP
 php = client.containers.get('php')
 php_log = php.logs()
-print(php_log.decode())
 assert php.status == 'running'
 php_conf = php.exec_run("php-fpm -t")
 assert 'configuration file /usr/local/etc/php-fpm.conf test is successful' in php_conf.output.decode()
@@ -83,20 +81,14 @@ assert "Ready to accept connections" in redis_log.decode()
 db = client.containers.get('db')
 assert db.status == 'running'
 cnf = db.exec_run('psql -U symfony -h 127.0.0.1 -p 5432 -c "select 1"')
-print(cnf.output.decode())
-# assert '' in cnf.output.decode()
 log = db.logs()
-# assert "Ready to accept connections" in log.decode()
-
-#smtp = client.containers.get('symfony_smtp_1')
-#assert smtp.status == 'running'
-#smtp_log = smtp.logs()
-#assert '' in smtp_log.decode()
+assert '(1 row)' in cnf.output.decode()
 
 mq = client.containers.get('mq')
 assert mq.status == 'running'
 logs = mq.logs()
 assert 'Server startup complete; 3 plugins started' in logs.decode()
 
-#response = requests.get("http://127.0.0.1:9000")
-#assert response.status_code == 200
+response = requests.get("http://localhost/")
+assert response.status_code == 404
+assert '<title>Welcome!</title>' in response.text

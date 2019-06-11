@@ -39,6 +39,23 @@ $ cd symfony4
 $ docker-compose up -d
 ```
 
+## Let's check the deployment result in browser
+ 
+|--------------------------------------------------|
+|          Url           |          App            |
+|--------------------------------------------------|
+| http://localhost       | Symfony home page       |
+| http://localhost:5601  | Kibana                  |
+| http://localhost:9200  | Elasticsearch           |
+----------------------------------------------------
+
+
+## Run Tests
+
+```
+$ python tests.py 
+```
+
 ## Contributing
 
 1. Fork it (<https://github.com/trydirect/symfony4/fork>)
