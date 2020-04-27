@@ -15,7 +15,7 @@
  * docker-compose
  * Ubuntu 18.04
  
-This repo help Symfony developers to start their new projects quickly using docker-compose.
+This project helps Symfony developers to start their new projects quickly using docker-compose.
 Docker image includes Xdebug.
 
 ## Note
@@ -64,6 +64,6 @@ $ python tests.py
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
 
-# Support Development
+## Support Development
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2BH8ED2AUU2RL)
