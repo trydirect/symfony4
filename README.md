@@ -39,6 +39,13 @@ $ cd symfony4
 $ docker-compose up -d
 ```
 
+
+## Quick deployment to cloud
+##### Amazon AWS, Digital Ocean, Hetzner and others
+[<img src="https://img.shields.io/badge/quick%20deploy-%40try.direct-brightgreen.svg">](https://try.direct/server/user/deploy/InN5bWZvbnk0fDZ8MTki.EAoFeA.Uld1w-ATQ9xrFu2TE71thWuSnag/)
+
+
+
 ## Let's check the deployment result in browser
  
 
